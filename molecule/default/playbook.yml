@@ -1,0 +1,85 @@
+---
+- name: Converge
+  hosts: all
+  roles:
+    - role: mysql
+    - role: apache
+    - role: php
+    - role: composer
+    - role: ansible-role-snipeit
+  vars:
+    mysql_packages:
+      - mariadb-client
+      - mariadb-server
+
+    mysql_root_password: "password"
+    mysql_root_password_update: false
+
+    mysql_databases:
+      - name: "{{ snipeit_database_name }}"
+        encoding: utf8
+        collation: utf8_bin
+
+    mysql_users:
+      - name: "{{ snipeit_database_user }}"
+        host: "%"
+        password: "{{ snipeit_database_pass }}"
+        priv: "{{ snipeit_database_name }}.*:ALL"
+
+    mysql_innodb_buffer_pool_size: "256M"
+    mysql_innodb_log_file_size: "64M"
+
+    # Apache settings
+    apache_sites:
+      - id: "{{ ansible_fqdn }}"
+        name: "{{ ansible_fqdn }}"
+        state: present
+        webroot: "{{ snipeit_root_directory }}/public"
+        port: 80
+        add_webroot: false
+        server_status_ip:
+          - { ip: '172.17.0.0/8'}  # Docker IP Range for local testing
+          - { ip: '127.0.0.0/8' }
+          - { ip: '::1' }
+        aliases: []
+        rules:
+          - character_encodings.conf
+          - custom_errors.conf
+          - media_types.conf
+          - rewrite_engine.conf
+          - rewrite_www.conf
+          - strict-transport-security.conf
+        append: |
+          RewriteEngine On
+          # From public/.htaccess
+          RewriteCond %{DOCUMENT_ROOT}%{REQUEST_FILENAME} !-d
+          RewriteCond %{REQUEST_URI} (.+)/$
+          RewriteRule ^ %1 [L,R=301]
+          RewriteCond %{DOCUMENT_ROOT}%{REQUEST_FILENAME} !-d
+          RewriteCond %{DOCUMENT_ROOT}%{REQUEST_FILENAME} !-f
+          RewriteRule ^ /index.php [L]
+
+    # PHP settings
+    php_packages_extra:
+      - php7.0
+      - php7.0-mysql
+      - php7.0-ldap
+      - php7.0-mcrypt
+      - libapache2-mod-php
+      - php7.0-gd
+      - php7.0-curl
+      - php7.0-mbstring
+      - php7.0-zip
+      - php7.0-fileinfo
+      - php7.0-bcmath
+      - php7.0-xml
+      - php7.0-pdo
+      - php7.0-tokenizer
+    php_memory_limit: "256M"
+    php_max_execution_time: "60"
+    php_max_input_time: "60"
+    php_max_input_vars: "1000"
+    php_upload_max_filesize: "64M"
+    php_max_file_uploads: "20"
+    php_post_max_size: "32M"
+    php_date_timezone: "America/New_York"

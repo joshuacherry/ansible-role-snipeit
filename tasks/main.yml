@@ -1,0 +1,39 @@
+---
+# Variable configuration.
+- name: Create Snipe-IT Root Directory
+  file:
+    dest: '{{ snipeit_root_directory }}'
+    owner: '{{ snipeit_root_directory_owner }}'
+    group: '{{ snipeit_root_directory_group }}'
+    mode: '0755'
+    state: 'directory'
+
+- name: Get latest release of snipe/snipe-it
+  git:
+    repo: '{{ snipeit_repository }}'
+    dest: '{{ snipeit_root_directory }}'
+    version: '{{ snipeit_version }}'
+    force: 'yes'
+  become: 'yes'
+  become_user: 'www-data'
+  notify: "upgrade snipe version"
+
+- name: Configuring Snipe-IT
+  template:
+    src: ".env.j2"
+    dest: "{{ snipeit_root_directory }}/.env"
+    owner: '{{ snipeit_root_directory_owner }}'
+    group: '{{ snipeit_root_directory_group }}'
+    mode: "0644"
+  with_items:
+    - '{{ snipeit_env_settings }}'
+  no_log: true
+
+- name: Install Snipe-IT Dependencies
+  composer:
+    command: install
+    prefer_source: 'yes'
+    working_dir: '{{ snipeit_root_directory }}'
+  become: 'yes'
+  become_user: 'www-data'
+  when: not snipeit_upgrade_to_latest

@@ -1,0 +1,14 @@
+---
+# from GitHub, overriding the name and specifying a specific tag
+- src: https://github.com/geerlingguy/ansible-role-mysql.git
+  version: master
+  name: mysql
+- src: https://github.com/joshuacherry/ansible-role-composer.git
+  version: master
+  name: composer
+- src: https://github.com/joshuacherry/ansible-role-apache.git
+  version: master
+  name: apache
+- src: https://github.com/joshuacherry/ansible-role-php.git
+  version: master
+  name: php

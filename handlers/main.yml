@@ -1,0 +1,9 @@
+---
+- name: Install Dependencies and Upgrade Database
+  shell: php upgrade.php
+  args:
+    chdir: '{{ snipeit_root_directory }}'
+  listen: "upgrade snipe version"
+  become: 'yes'
+  become_user: 'www-data'
+  when: snipeit_upgrade_to_latest

@@ -21,6 +21,7 @@ def test_snipeit_env_file(host):
     assert file.exists
     assert file.user == 'www-data'
     assert file.group == 'www-data'
+    assert file.contains('not.a.real.email.server')
 
 
 def test_apache2_is_installed(host):

@@ -8,6 +8,7 @@
     - role: composer
     - role: ansible-role-snipeit
   vars:
+    snipeit_env_MAIL_HOST: "not.a.real.email.server"
     mysql_packages:
       - mariadb-client
       - mariadb-server

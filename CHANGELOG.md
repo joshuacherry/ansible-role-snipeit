@@ -16,4 +16,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
-[Unreleased]: https://github.com/joshuacherry/ansible-role-snipeit/compare/1.0.0...HEAD
+## [2.0.0] - 2018-10-17
+
+### Changed
+
+- Separated variables for configuring SnipeIT's `.env` file
+
+[Unreleased]: https://github.com/joshuacherry/ansible-role-snipeit/compare/2.0.0...HEAD
+[2.0.0]: https://github.com/joshuacherry/ansible-role-snipeit/compare/1.0.0...2.0.0

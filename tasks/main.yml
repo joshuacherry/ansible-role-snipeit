@@ -17,6 +17,7 @@
   become: 'yes'
   become_user: 'www-data'
   notify: "upgrade snipe version"
+  changed_when: false
 
 - name: Configuring Snipe-IT
   template:
@@ -34,4 +35,3 @@
     working_dir: '{{ snipeit_root_directory }}'
   become: 'yes'
   become_user: 'www-data'
-  when: not snipeit_upgrade_to_latest

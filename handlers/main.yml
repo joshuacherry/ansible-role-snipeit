@@ -7,3 +7,4 @@
   become: 'yes'
   become_user: 'www-data'
   when: snipeit_upgrade_to_latest
+  changed_when: false

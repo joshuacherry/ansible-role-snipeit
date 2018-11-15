@@ -6,10 +6,6 @@ snipeit_root_directory_owner: 'www-data'
 snipeit_root_directory_group: 'www-data'
 snipeit_version: 'HEAD'
 snipeit_upgrade_to_latest: true
-# Snipe-IT database configuration
-snipeit_database_user: 'snipe_user'
-snipeit_database_pass: 'password'
-snipeit_database_name: 'snipeit'
 
 # Snipe-IT .env configurations
 # See https://snipe-it.readme.io/docs/configuration
@@ -28,9 +24,9 @@ snipeit_env_APP_LOCALE: 'en'
 # REQUIRED: DATABASE SETTINGS
 snipeit_env_DB_CONNECTION: 'mysql'
 snipeit_env_DB_HOST: 'localhost'
-snipeit_env_DB_DATABASE: '{{ snipeit_database_name }}'
-snipeit_env_DB_USERNAME: '{{ snipeit_database_user }}'
-snipeit_env_DB_PASSWORD: '{{ snipeit_database_pass }}'
+snipeit_env_DB_DATABASE: 'snipeit'
+snipeit_env_DB_USERNAME: 'snipeit'
+snipeit_env_DB_PASSWORD: 'password'
 snipeit_env_DB_PREFIX: 'null'
 snipeit_env_DB_DUMP_PATH: '/usr/bin'
 snipeit_env_DB_CHARSET: 'utf8mb4'

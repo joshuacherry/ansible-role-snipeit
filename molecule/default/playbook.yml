@@ -7,6 +7,18 @@
     - role: php
     - role: composer
     - role: ansible-role-snipeit
+  pre_tasks:
+    - name: Set default Ubuntu 16.04 php version
+      set_fact:
+        php_default_version_debian: "7.0"
+      when: ansible_distribution_release == 'xenial'
+      changed_when: false
+
+    - name: Set default Ubuntu 18.04 php version
+      set_fact:
+        php_default_version_debian: "7.2"
+      when: ansible_distribution_release == 'bionic'
+      changed_when: false
   vars:
     snipeit_env_MAIL_HOST: "not.a.real.email.server"
     mysql_packages:
@@ -17,15 +29,15 @@
     mysql_root_password_update: false
 
     mysql_databases:
-      - name: "{{ snipeit_database_name }}"
+      - name: "{{ snipeit_env_DB_DATABASE }}"
         encoding: utf8
         collation: utf8_bin
 
     mysql_users:
-      - name: "{{ snipeit_database_user }}"
+      - name: "{{ snipeit_env_DB_USERNAME }}"
         host: "%"
-        password: "{{ snipeit_database_pass }}"
-        priv: "{{ snipeit_database_name }}.*:ALL"
+        password: "{{ snipeit_env_DB_PASSWORD }}"
+        priv: "{{ snipeit_env_DB_DATABASE }}.*:ALL"
 
     mysql_innodb_buffer_pool_size: "256M"
     mysql_innodb_log_file_size: "64M"
@@ -62,20 +74,19 @@
 
     # PHP settings
     php_packages_extra:
-      - php7.0
-      - php7.0-mysql
-      - php7.0-ldap
-      - php7.0-mcrypt
-      - libapache2-mod-php
-      - php7.0-gd
-      - php7.0-curl
-      - php7.0-mbstring
-      - php7.0-zip
-      - php7.0-fileinfo
-      - php7.0-bcmath
-      - php7.0-xml
-      - php7.0-pdo
-      - php7.0-tokenizer
+      - "php{{ php_default_version_debian }}"
+      - "php{{ php_default_version_debian }}-mysql"
+      - "php{{ php_default_version_debian }}-ldap"
+      - "libapache2-mod-php"
+      - "php{{ php_default_version_debian }}-gd"
+      - "php{{ php_default_version_debian }}-curl"
+      - "php{{ php_default_version_debian }}-mbstring"
+      - "php{{ php_default_version_debian }}-zip"
+      - "php{{ php_default_version_debian }}-fileinfo"
+      - "php{{ php_default_version_debian }}-bcmath"
+      - "php{{ php_default_version_debian }}-xml"
+      - "php{{ php_default_version_debian }}-pdo"
+      - "php{{ php_default_version_debian }}-tokenizer"
     php_memory_limit: "256M"
     php_max_execution_time: "60"
     php_max_input_time: "60"

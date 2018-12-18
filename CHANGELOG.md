@@ -16,6 +16,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+- Added exposed and published ports to molecule for interactive web testing
+
 ## [3.0.0] - 2018-11-15
 
 ### Added

@@ -18,6 +18,12 @@ platforms:
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
       - /lib/modules:/lib/modules:ro
+    exposed_ports:
+      - "80"
+      - "443"
+    published_ports:
+      - "9080:80"
+      - "9443:443"
 provisioner:
   name: ansible
   lint:
